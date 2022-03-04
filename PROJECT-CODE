@@ -1,0 +1,178 @@
+input.buttonsAB.onEvent(ButtonEvent.Click, function () {
+    light.clear()
+    if (steps >= 1) {
+        light.showRing(
+        `green black black black black black black black black black`
+        )
+    }
+    if (steps >= 3) {
+        light.showRing(
+        `green green black black black black black black black black`
+        )
+    }
+    if (steps >= 75) {
+        light.showRing(
+        `green green green black black black black black black black`
+        )
+    }
+    if (steps >= 100) {
+        light.showRing(
+        `green green green green black black black black black black`
+        )
+    }
+    if (steps >= 125) {
+        light.showRing(
+        `green green green green green black black black black black`
+        )
+    }
+    if (steps >= 150) {
+        light.showRing(
+        `green green green green green green black black black black`
+        )
+    }
+    if (steps >= 175) {
+        light.showRing(
+        `green green green green green green green black black black`
+        )
+    }
+    if (steps >= 200) {
+        light.showRing(
+        `green green green green green green green black black black`
+        )
+    }
+    if (steps >= 225) {
+        light.showRing(
+        `green green green green green green green green black black`
+        )
+    }
+    if (steps >= 250) {
+        light.showRing(
+        `green green green green green green green green black black`
+        )
+    }
+    if (steps >= 275) {
+        light.showRing(
+        `green green green green green green green green green black`
+        )
+    }
+    if (steps >= 300) {
+        light.showRing(
+        `green green green green green green green green green green`
+        )
+    }
+})
+input.buttonA.onEvent(ButtonEvent.Click, function () {
+    light.setAll(0x00ff00)
+    light.setAll(0x00ffff)
+})
+input.buttonB.onEvent(ButtonEvent.Click, function () {
+    if (input.switchRight()) {
+        light.photonFlip()
+        light.setPhotonMode(PhotonMode.Eraser)
+        for (let i = 0; i < time; i++) {
+            music.playTone(659, 300)
+            pause(700)
+            light.photonForward(1)
+        }
+        for (let i = 0; i < 1; i++) {
+            music.playMelody("A G B A G C5 B G ", 120)
+            pause(100)
+            music.playMelody("A G B A G C5 B G ", 120)
+            light.showAnimation(light.rainbowAnimation, 2000)
+        }
+        music.stopAllSounds()
+    } else {
+        light.photonFlip()
+        light.setPhotonMode(PhotonMode.Eraser)
+        for (let i = 0; i < time; i++) {
+            music.playTone(659, 300)
+            pause(60000)
+            light.photonForward(1)
+        }
+        for (let i = 0; i < 1; i++) {
+            music.playMelody("A G B A G C5 B G ", 120)
+            pause(5000)
+            music.playMelody("A G B A G C5 B G ", 120)
+            light.showAnimation(light.rainbowAnimation, 2000)
+        }
+        music.stopAllSounds()
+    }
+})
+input.onGesture(Gesture.Shake, function () {
+    steps += 1
+})
+let time = 0
+let steps = 0
+light.setBrightness(255)
+let SENSORPAD = pins.A6.analogRead()
+steps = 0
+time = 1
+light.photonForward(0)
+light.clear()
+music.stopAllSounds()
+light.showRing(
+`red black black black black black black black black red`
+)
+light.showRing(
+`red green black black black black black black green red`
+)
+light.showRing(
+`red green blue black black black black blue green red`
+)
+light.showRing(
+`red green blue yellow black black yellow blue green red`
+)
+light.showRing(
+`red green blue yellow purple purple yellow blue green red`
+)
+light.showRing(
+`black red green blue yellow yellow blue green red black`
+)
+light.showRing(
+`black black red green blue blue green red black black`
+)
+light.showRing(
+`black black black red green green red black black black`
+)
+light.showRing(
+`black black black black red red black black black black`
+)
+light.showRing(
+`black black black black black black black black black black`
+)
+light.clear()
+forever(function () {
+    SENSORPAD = pins.A6.analogRead()
+    if (time >= 10) {
+        light.clear()
+        time = 0
+        light.setPhotonPosition(0)
+    } else {
+        if (SENSORPAD >= 700 && SENSORPAD <= 2000) {
+            control.waitMicros(90000)
+            if (input.switchRight()) {
+                control.waitMicros(10000)
+                if (time < 10) {
+                    light.photonForward(1)
+                    time += 1
+                } else if (time > 10) {
+                    time = 0
+                    light.clear()
+                } else {
+                	
+                }
+            } else {
+                control.waitMicros(10000)
+                if (time < 10) {
+                    light.photonForward(1)
+                    time += 1
+                } else if (time > 10) {
+                    time = 0
+                    light.clear()
+                } else {
+                	
+                }
+            }
+        }
+    }
+})
